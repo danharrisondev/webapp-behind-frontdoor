@@ -11,6 +11,7 @@ pool:
 
 steps:
 - task: TerraformTaskV3@3
+  name: terraform init
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -20,6 +21,7 @@ steps:
     backendAzureRmContainerName: 'tfstate'
     backendAzureRmKey: 'prod.terraform.tfstate'
 - task: TerraformTaskV3@3
+  name: terraform plan
   inputs:
     provider: 'azurerm'
     command: 'plan'
