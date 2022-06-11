@@ -43,6 +43,16 @@ stages:
             deploy:
               steps:
                 - task: TerraformTaskV3@3
+                  displayName: terraform init
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'init'
+                    backendServiceArm: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
+                    backendAzureRmResourceGroupName: 'rg-terraform-state'
+                    backendAzureRmStorageAccountName: 'dhterraform'
+                    backendAzureRmContainerName: 'tfstate'
+                    backendAzureRmKey: 'prod.terraform.tfstate'
+                - task: TerraformTaskV3@3
                   displayName: terraform apply
                   inputs:
                     provider: 'azurerm'
