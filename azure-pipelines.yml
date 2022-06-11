@@ -9,18 +9,23 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: TerraformTaskV3@3
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    backendServiceArm: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
-    backendAzureRmResourceGroupName: 'rg-terraform-state'
-    backendAzureRmStorageAccountName: 'dhterraform'
-    backendAzureRmContainerName: 'tfstate'
-    backendAzureRmKey: 'prod.terraform.tfstate'
-- task: TerraformTaskV3@3
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    environmentServiceNameAzureRM: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
+stages:
+  - stage: TerraformPlan
+    displayName: Terraform Plan
+    jobs:
+      - job:
+        steps:
+          - task: TerraformTaskV3@3
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
+              backendAzureRmResourceGroupName: 'rg-terraform-state'
+              backendAzureRmStorageAccountName: 'dhterraform'
+              backendAzureRmContainerName: 'tfstate'
+              backendAzureRmKey: 'prod.terraform.tfstate'
+          - task: TerraformTaskV3@3
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
