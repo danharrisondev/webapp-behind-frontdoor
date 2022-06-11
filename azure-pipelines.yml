@@ -16,6 +16,7 @@ stages:
       - job:
         steps:
           - task: TerraformTaskV3@3
+            displayName: terraform init
             inputs:
               provider: 'azurerm'
               command: 'init'
@@ -25,6 +26,7 @@ stages:
               backendAzureRmContainerName: 'tfstate'
               backendAzureRmKey: 'prod.terraform.tfstate'
           - task: TerraformTaskV3@3
+            displayName: terraform plan
             inputs:
               provider: 'azurerm'
               command: 'plan'
