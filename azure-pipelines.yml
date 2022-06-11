@@ -10,8 +10,8 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: TerraformPlan
-    displayName: Terraform Plan
+  - stage: Build
+    displayName: Build
     jobs:
       - job:
         steps:
@@ -30,4 +30,17 @@ stages:
             inputs:
               provider: 'azurerm'
               command: 'plan'
+              environmentServiceNameAzureRM: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
+  - stage: Deploy
+    displayName: Deploy
+    dependsOn:
+      - Build
+    jobs:
+      - job:
+        steps:
+          - task: TerraformTaskV3@3
+            displayName: terraform apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
               environmentServiceNameAzureRM: 'Pay-As-You-Go(1647cdc9-e603-4fad-9c60-a1368dfd6fdf)'
